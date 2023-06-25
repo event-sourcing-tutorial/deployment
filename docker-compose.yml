@@ -10,3 +10,20 @@ services:
       - PGDATA=/var/lib/postgresql/data
     volumes:
       - ./data/eventsdb:/var/lib/postgresql/data
+  eventsapis:
+    image: eventsapis
+    build: ../eventsapis
+    environment:
+      - EVENTSDB_PASSWORD=$EVENTSDB_PASSWORD
+      - RUST_LOG=server=trace
+    volumes:
+      - ../eventsapis/src:/app/src:ro
+      - ../eventsapis/proto:/app/proto:ro
+      - ../eventsapis/build.rs:/app/build.rs:ro
+      - ../eventsapis/Cargo.lock:/app/Cargo.lock:ro
+      - ../eventsapis/Cargo.toml:/app/Cargo.toml:ro
+      - ./data/eventsapis/registry:/root/.cargo/registry:delegated
+      - eventsapisbuildcache:/app/target
+
+volumes:
+  eventsapisbuildcache:
