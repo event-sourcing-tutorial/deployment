@@ -18,12 +18,43 @@ services:
       - RUST_LOG=server=trace
     volumes:
       - ../eventsapis/src:/app/src:ro
-      - ../eventsapis/proto:/app/proto:ro
-      - ../eventsapis/build.rs:/app/build.rs:ro
       - ../eventsapis/Cargo.lock:/app/Cargo.lock:ro
       - ../eventsapis/Cargo.toml:/app/Cargo.toml:ro
+      - ../eventsapis-proto/Cargo.toml:/eventsapis-proto/Cargo.toml:ro
+      - ../eventsapis-proto/Cargo.lock:/eventsapis-proto/Cargo.lock:ro
+      - ../eventsapis-proto/src:/eventsapis-proto/src:ro
+      - ../eventsapis-proto/proto:/eventsapis-proto/proto:ro
+      - ../eventsapis-proto/build.rs:/eventsapis-proto/build.rs:ro
       - ./data/eventsapis/registry:/root/.cargo/registry:delegated
       - eventsapisbuildcache:/app/target
+  eventsreducer:
+    image: eventsreducer
+    build: ../eventsreducer
+    environment:
+      - RUST_LOG=server=trace
+    volumes:
+      - ../eventsreducer/src:/app/src:ro
+      - ../eventsreducer/proto:/app/proto:ro
+      - ../eventsreducer/Cargo.lock:/app/Cargo.lock:ro
+      - ../eventsreducer/Cargo.toml:/app/Cargo.toml:ro
+      - ../postgresql-reducer/Cargo.toml:/postgresql-reducer/Cargo.toml:ro
+      - ../postgresql-reducer/Cargo.lock:/postgresql-reducer/Cargo.lock:ro
+      - ../postgresql-reducer/src:/postgresql-reducer/src:ro
+      - ../eventsapis-proto/Cargo.toml:/eventsapis-proto/Cargo.toml:ro
+      - ../eventsapis-proto/Cargo.lock:/eventsapis-proto/Cargo.lock:ro
+      - ../eventsapis-proto/src:/eventsapis-proto/src:ro
+      - ../eventsapis-proto/proto:/eventsapis-proto/proto:ro
+      - ../eventsapis-proto/build.rs:/eventsapis-proto/build.rs:ro
+      - ../reducerapis-proto/Cargo.toml:/reducerapis-proto/Cargo.toml:ro
+      - ../reducerapis-proto/Cargo.lock:/reducerapis-proto/Cargo.lock:ro
+      - ../reducerapis-proto/src:/reducerapis-proto/src:ro
+      - ../reducerapis-proto/proto:/reducerapis-proto/proto:ro
+      - ../reducerapis-proto/build.rs:/reducerapis-proto/build.rs:ro
+      - ./data/eventsreducer/registry:/root/.cargo/registry:delegated
+      - ./data/eventsreducer/postgresql-15:/data/postgresql-15:delegated
+      - eventsreducerbuildcache:/app/target
+
 
 volumes:
   eventsapisbuildcache:
+  eventsreducerbuildcache:
