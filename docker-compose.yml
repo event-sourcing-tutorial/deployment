@@ -22,7 +22,7 @@ services:
       - ../eventsapis/Cargo.toml:/app/Cargo.toml:ro
       - ../eventsapis-proto/Cargo.toml:/eventsapis-proto/Cargo.toml:ro
       - ../eventsapis-proto/Cargo.lock:/eventsapis-proto/Cargo.lock:ro
-      - ../eventsapis-proto/src:/eventsapis-proto/src:ro
+      - ../eventsapis-proto/src-rs:/eventsapis-proto/src-rs:ro
       - ../eventsapis-proto/proto:/eventsapis-proto/proto:ro
       - ../eventsapis-proto/build.rs:/eventsapis-proto/build.rs:ro
       - ./data/eventsapis/registry:/root/.cargo/registry:delegated
@@ -42,7 +42,7 @@ services:
       - ../postgresql-reducer/src:/postgresql-reducer/src:ro
       - ../eventsapis-proto/Cargo.toml:/eventsapis-proto/Cargo.toml:ro
       - ../eventsapis-proto/Cargo.lock:/eventsapis-proto/Cargo.lock:ro
-      - ../eventsapis-proto/src:/eventsapis-proto/src:ro
+      - ../eventsapis-proto/src-rs:/eventsapis-proto/src-rs:ro
       - ../eventsapis-proto/proto:/eventsapis-proto/proto:ro
       - ../eventsapis-proto/build.rs:/eventsapis-proto/build.rs:ro
       - ../reducerapis-proto/Cargo.toml:/reducerapis-proto/Cargo.toml:ro
