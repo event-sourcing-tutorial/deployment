@@ -53,8 +53,30 @@ services:
       - ./data/eventsreducer/registry:/root/.cargo/registry:delegated
       - ./data/eventsreducer/postgresql-15:/data/postgresql-15:delegated
       - eventsreducerbuildcache:/app/target
-
+  events-admin-dashboard:
+    image: events-admin-dashboard
+    build:
+      context: ../events-admin-dashboard
+      args:
+        - GITHUB_TOKEN=$GITHUB_TOKEN
+      secrets:
+        - npmrc
+    volumes:
+      - ../events-admin-dashboard/src:/app/src:ro
+  events-admin-proxy:
+    image: nginx
+    container_name: events-admin-proxy
+    ports:
+      - 3000:3000
+    environment:
+      - NGINX_PORT=3000
+    volumes:
+      - ./events-admin-proxy.conf:/etc/nginx/conf.d/default.conf
 
 volumes:
   eventsapisbuildcache:
   eventsreducerbuildcache:
+
+secrets:
+  npmrc:
+    file: .npmrc
